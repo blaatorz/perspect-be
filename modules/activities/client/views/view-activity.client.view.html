@@ -1,0 +1,22 @@
+<section ng-controller="ActivitiesController" ng-init="findOne()">
+  <div class="page-header">
+    <h1 ng-bind="activity.title"></h1>
+  </div>
+  <div class="pull-right" ng-show="authentication.user._id == activity.user._id">
+    <a class="btn btn-primary" ui-sref="activities.edit({activityId: activity._id})">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-primary" ng-click="remove();">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <small>
+    <em class="text-muted">
+      Posted on
+      <span ng-bind="activity.created | date:'mediumDate'"></span>
+      by
+      <span ng-bind="activity.user.displayName"></span>
+    </em>
+  </small>
+  <p class="lead" ng-bind="activity.content"></p>
+</section>
