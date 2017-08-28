@@ -6,30 +6,38 @@
     <form name="activityForm" class="form-horizontal" data-ng-submit="create(activityForm.$valid)" novalidate>
       <fieldset>
         <div class="form-group" show-errors>
-          <label for="title">Title</label>
-          <input name="title" type="text" data-ng-model="title" id="title" name="title" class="form-control" placeholder="Title" required>
-          <div data-ng-messages="activityForm.title.$error" role="alert">
-            <p class="help-block error-text" data-ng-message="required">Activity title is required.</p>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="title">Title</label>
+              <input name="title" type="text" data-ng-model="title" id="title" class="form-control" placeholder="Title" required />
+              <div data-ng-messages="activityForm.title.$error" role="alert">
+                <p class="help-block error-text" data-ng-message="required">Activity title is required.</p>
+              </div>
+            </div>
           </div>
         </div>
         <div class="form-group">
-          <label for="description_short">Short description</label>
-          <input type="text" name="description_short" data-ng-model="description.short" id="description_short" class="form-control" placeholder="Short description" required>
-        </div>
-        <div data-ng-messages="activityForm.description.short.$error" role="alert">
-          <p class="help-block error-text" data-ng-message="required">Short description is required.</p>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="description_short">Short description</label>
+              <input type="text" name="description_short" data-ng-model="description.short" id="description_short" class="form-control" placeholder="Short description" required />
+              <div data-ng-messages="activityForm.description.short.$error" role="alert">
+                <p class="help-block error-text" data-ng-message="required">Short description is required.</p>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="form-group">
           <label for="description_long">Long description</label>
           <textarea name="description_long" data-ng-model="description.long" id="description_long" class="form-control" cols="30" rows="10" placeholder="Long description" required></textarea>
-        </div>
-        <div data-ng-messages="activityForm.description.long.$error" role="alert">
-          <p class="help-block error-text" data-ng-message="required">Long description is required.</p>
+          <div data-ng-messages="activityForm.description.long.$error" role="alert">
+            <p class="help-block error-text" data-ng-message="required">Long description is required.</p>
+          </div>
         </div>
         <div class="form-group">
-          <label>Start</label>
+          <label for="startDate">Start</label>
           <div class="row">
-            <div class="col-xs-4">
+            <div class="col-md-6">
               <p class="input-group">
                 <input type="text" class="form-control" id="startDate" name="startDate" data-datepicker-popup="dd-MM-yyyy" data-ng-model="startDate" data-is-open="status.start" data-datepicker-options="dateOptions" data-min-date="today" required />
                 <span class="input-group-btn">
@@ -39,25 +47,25 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-xs-4">
+            <div class="col-md-6">
               <timepicker id="startTime" data-ng-model="startTime" data-hour-step="hstep" data-minute-step="mstep" data-show-meridian="false"></timepicker>
             </div>
           </div>
         </div>
         <div class="form-group">
-          <label>End</label>
+          <label for="endDate">End</label>
           <div class="row">
-            <div class="col-xs-4">
+            <div class="col-md-6">
               <p class="input-group">
                 <input type="text" class="form-control" id="endDate" name="endDate" data-datepicker-popup="dd-MM-yyyy" data-ng-model="endDate" data-is-open="status.end" data-datepicker-options="dateOptions" data-min-date="today" data-max-date="tomorrow" required />
                 <span class="input-group-btn">
-                  <button type="button" class="btn btn-default" ng-click="status.end = !status.end"><i class="glyphicon glyphicon-calendar"></i></button>
+                  <button type="button" class="btn btn-default" data-ng-click="status.end = !status.end"><i class="glyphicon glyphicon-calendar"></i></button>
                 </span>
               </p>
             </div>
           </div>
           <div class="row">
-            <div class="col-xs-4">
+            <div class="col-md-6">
               <timepicker id="endTime" data-ng-model="endTime" data-hour-step="hstep" data-minute-step="mstep" data-show-meridian="false"></timepicker>
             </div>
           </div>
@@ -65,18 +73,18 @@
         <div class="form-group">
           <label>Location</label>
           <div class="row">
-            <p class="input-group">
-              <div class="col-xs-6">
+            <div class="input-group">
+              <div class="col-md-6">
                 <input type="text" class="form-control" data-g-places-autocomplete data-ng-model="address" placeholder="Address" />
               </div>
               <div class="col-xs-2">
                 <button class="btn btn-default" data-ng-click="getLocation()" data-ng-disabled="loading">Get current location</button>
               </div>
-            </p>
+            </div>
 
           </div>
           <div class="row">
-            <div class="col-xs-12 has-error" data-ng-show="locationError">
+            <div class="col-md-12 has-error" data-ng-show="locationError">
               <p class="help-block error-text">{{locationError}}</p>
             </div>
           </div>

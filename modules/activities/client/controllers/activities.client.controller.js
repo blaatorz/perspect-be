@@ -185,8 +185,32 @@ angular.module('activities').controller('ActivitiesController', ['$scope', '$sta
 
     // Find existing Activity
     $scope.findOne = function () {
-      $scope.activity = Activities.get({
+      Activities.get({
         activityId: $stateParams.activityId
+      }, function(resp) {
+        $scope.activity = resp;
+        $scope.reverseGeocoding();
+      });
+    };
+
+    $scope.reverseGeocoding = function() {
+      var geocoder = new google.maps.Geocoder();
+      var latlng = new google.maps.LatLng($scope.activity.location.latlng[0], $scope.activity.location.latlng[1]);
+
+      geocoder.geocode({ 'location': latlng }, function(results, status) {
+        if (status === 'OK') {
+          if (results[0]) {
+            $scope.$apply(function() {
+              $scope.activity.address = results[0].formatted_address;
+            });
+          } else {
+            console.log('No results found');
+          }
+        } else {
+          console.log('Geocoder failed due to ' + status);
+        }
+      }, function(err) {
+        console.log(err);
       });
     };
   }
