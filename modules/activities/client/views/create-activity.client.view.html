@@ -16,12 +16,12 @@
             </div>
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" show-errors>
           <div class="row">
             <div class="col-md-6">
               <label for="description_short">Short description</label>
               <input type="text" name="description_short" data-ng-model="description.short" id="description_short" class="form-control" placeholder="Short description" required />
-              <div data-ng-messages="activityForm.description.short.$error" role="alert">
+              <div data-ng-messages="activityForm.description_short.$error" role="alert">
                 <p class="help-block error-text" data-ng-message="required">Short description is required.</p>
               </div>
             </div>
@@ -30,7 +30,7 @@
         <div class="form-group">
           <label for="description_long">Long description</label>
           <textarea name="description_long" data-ng-model="description.long" id="description_long" class="form-control" cols="30" rows="10" placeholder="Long description" required></textarea>
-          <div data-ng-messages="activityForm.description.long.$error" role="alert">
+          <div data-ng-messages="activityForm.description_long.$error" role="alert">
             <p class="help-block error-text" data-ng-message="required">Long description is required.</p>
           </div>
         </div>
@@ -39,7 +39,7 @@
           <div class="row">
             <div class="col-md-6">
               <p class="input-group">
-                <input type="text" class="form-control" id="startDate" name="startDate" data-datepicker-popup="dd-MM-yyyy" data-ng-model="startDate" data-is-open="status.start" data-datepicker-options="dateOptions" data-min-date="today" required />
+                <input type="text" class="form-control" id="startDate" name="startDate" data-datepicker-popup="dd-MM-yyyy" data-ng-model="startDate" data-is-open="status.start" data-datepicker-options="dateOptions" data-min-date="today" />
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-default" ng-click="status.start = !status.start"><i class="glyphicon glyphicon-calendar"></i></button>
                 </span>
@@ -57,7 +57,7 @@
           <div class="row">
             <div class="col-md-6">
               <p class="input-group">
-                <input type="text" class="form-control" id="endDate" name="endDate" data-datepicker-popup="dd-MM-yyyy" data-ng-model="endDate" data-is-open="status.end" data-datepicker-options="dateOptions" data-min-date="today" data-max-date="tomorrow" required />
+                <input type="text" class="form-control" id="endDate" name="endDate" data-datepicker-popup="dd-MM-yyyy" data-ng-model="endDate" data-is-open="status.end" data-datepicker-options="dateOptions" data-min-date="today" data-max-date="tomorrow" />
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-default" data-ng-click="status.end = !status.end"><i class="glyphicon glyphicon-calendar"></i></button>
                 </span>
@@ -70,23 +70,18 @@
             </div>
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" show-errors>
           <label>Location</label>
           <div class="row">
-            <div class="input-group">
-              <div class="col-md-6">
-                <input type="text" class="form-control" data-g-places-autocomplete data-ng-model="address" placeholder="Address" />
-              </div>
-              <div class="col-xs-2">
-                <button class="btn btn-default" data-ng-click="getLocation()" data-ng-disabled="loading">Get current location</button>
-              </div>
+            <div class="col-md-6">
+              <input type="text" name="location" id="location" class="form-control" data-g-places-autocomplete data-ng-model="address" placeholder="Address" required />
             </div>
-
+            <div class="col-xs-2">
+              <button class="btn btn-default" data-ng-click="getLocation()" data-ng-disabled="loading">Get current location</button>
+            </div>
           </div>
-          <div class="row">
-            <div class="col-md-12 has-error" data-ng-show="locationError">
-              <p class="help-block error-text">{{locationError}}</p>
-            </div>
+          <div data-ng-messages="activityForm.location.$error" role="alert">
+            <p class="help-block error-text" data-ng-message="required">Address is required.</p>
           </div>
         </div>
         <div class="form-group">
