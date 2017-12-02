@@ -232,17 +232,30 @@ angular.module('activities').controller('ActivitiesController', ['$scope', '$sta
     $scope.initTimePickers();
 
     $scope.getLocation = function() {
+      //disable button
       $scope.loading = true;
+
+      //clear self entered location
+      $scope.address = undefined;
+
+      //get current position
       navigator.geolocation.getCurrentPosition(function(resp) {
         //success cb
         $scope.location = resp;
-        $scope.address = 'Location found';
+        $scope.reverseGeocoding(resp.coords.latitude, resp.coords.longitude, function(err, resp) {
+          if (err) {
+            console.log(err);
+          } else {
+            //bind address
+            $scope.address = resp;
 
-        //enable location button
-        $scope.loading = false;
+            //enable location button
+            $scope.loading = false;
 
-        //apply changes
-        $scope.$apply();
+            //apply changes
+            $scope.$apply();
+          }
+        });
       }, function(err) {
 
         //set right location error
@@ -273,9 +286,9 @@ angular.module('activities').controller('ActivitiesController', ['$scope', '$sta
     };
 
     $scope.validateLocation = function() {
-      if ($scope.address.geometry) {
-        return [$scope.address.geometry.location.lat, $scope.address.geometry.location.lng];
-      } else if ($scope.address === 'Location found') {
+      if ($scope.address && $scope.address.geometry) {
+        return [$scope.address.geometry.location.lat(), $scope.address.geometry.location.lng()];
+      } else if ($scope.address && $scope.location.coords.latitude && $scope.location.coords.longitude) {
         return [$scope.location.coords.latitude, $scope.location.coords.longitude];
       } else {
         return false;
@@ -288,7 +301,7 @@ angular.module('activities').controller('ActivitiesController', ['$scope', '$sta
 
       $scope.location = $scope.validateLocation();
 
-      if (!isValid) {
+      if (!isValid && !$scope.location) {
         $scope.$broadcast('show-errors-check-validity', 'activityForm');
 
         return false;
@@ -374,8 +387,37 @@ angular.module('activities').controller('ActivitiesController', ['$scope', '$sta
 
     // Find existing Activity
     $scope.findOne = function () {
-      $scope.activity = Activities.get({
+      Activities.get({
         activityId: $stateParams.activityId
+      }, function(resp) {
+        $scope.activity = resp;
+        $scope.reverseGeocoding($scope.activity.location.latlng[0], $scope.activity.location.latlng[1], function(err, resp) {
+          if (err) {
+            console.log(err);
+          } else {
+            $scope.activity.address = resp;
+            $scope.$apply();
+          }
+        });
+      });
+    };
+
+    $scope.reverseGeocoding = function(lat, lng, cb) {
+      var geocoder = new google.maps.Geocoder();
+      var latlng = new google.maps.LatLng(lat, lng);
+
+      geocoder.geocode({ 'location': latlng }, function(results, status) {
+        if (status === 'OK') {
+          if (results[0]) {
+            cb(null, results[0].formatted_address);
+          } else {
+            cb('no results found');
+          }
+        } else {
+          cb('Geocoder failed due to ' + status);
+        }
+      }, function(err) {
+        cb(err);
       });
     };
   }
